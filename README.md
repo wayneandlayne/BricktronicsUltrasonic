@@ -7,7 +7,7 @@ More details at http://www.wayneandlayne.com/bricktronics/
 
 To download. click the "Download ZIP" button on the right side of this page. Rename the uncompressed folder BricktronicsUltrasonic. Check that the BricktronicsUltrasonic folder contains BricktronicsUltrasonic.cpp and BricktronicsUltrasonic.h
 
-Place the BricktronicsUltrasonic library folder into your <arduinosketchfolder>/libraries/ folder. You may need to create the libraries subfolder if this is your first installed library. Restart the Arduino IDE.
+Place the BricktronicsUltrasonic library folder into your `<arduinosketchfolder>/libraries/` folder. You may need to create the libraries subfolder if this is your first installed library. Restart the Arduino IDE.
 
 **If you want to use ultrasonic sensors with your Bricktronics Shield or Megashield, you may also be interested in these libraries:**
 * [BricktronicsShield Arduino Library](https://github.com/wayneandlayne/BricktronicsShield)
