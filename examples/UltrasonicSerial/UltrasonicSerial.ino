@@ -25,6 +25,8 @@
 
 // 1. With a Bricktronics Shield - Include these lines and be sure to
 // call BricktronicsShield::begin() in the setup() function below.
+// You also need to install the Adafruit MCP23017 library:
+//	https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library
 // Select the sensor port for the sensor (SENSOR_3 and SENSOR_4) below.
 // Use the jumpers to connect pins 1-2 and 4-5 for the ultrasonic sensor.
 //
