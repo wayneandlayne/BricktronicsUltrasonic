@@ -1,7 +1,7 @@
 /* 
-    Bricktronics Library for LEGO NXT Ultrasonic sensors.
+    BricktronicsUltrasonic v1.2 - A software library for LEGO NXT Ultrasonic sensors.
 
-    Copyright (C) 2014 Adam Wolf, Matthew Beckler, John Baichtal
+    Copyright (C) 2015 Adam Wolf, Matthew Beckler, John Baichtal
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
