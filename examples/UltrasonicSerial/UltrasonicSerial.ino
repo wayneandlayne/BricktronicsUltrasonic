@@ -30,10 +30,10 @@
 // Select the sensor port for the sensor (SENSOR_3 and SENSOR_4) below.
 // Use the jumpers to connect pins 1-2 and 4-5 for the ultrasonic sensor.
 //
-//#include <Wire.h>
-//#include <Adafruit_MCP23017.h>
-//#include <BricktronicsShield.h>
-//BricktronicsUltrasonic u(BricktronicsShield::SENSOR_4);
+#include <Wire.h>
+#include <Adafruit_MCP23017.h>
+#include <BricktronicsShield.h>
+BricktronicsUltrasonic u(BricktronicsShield::SENSOR_4);
 
 // 2. With a Bricktronics Megashield - Include these lines but do not
 // call BricktronicsShield::begin() in the setup() function below.
@@ -58,7 +58,7 @@ void setup()
 
   // Only call this if you are using a Bricktronics Shield,
   // otherwise leave it commented-out.
-  //Bricktronics::begin();
+  BricktronicsShield::begin();
 
   // Initialize the ultrasonic sensor connections
   u.begin();
