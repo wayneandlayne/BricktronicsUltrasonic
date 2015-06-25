@@ -30,25 +30,31 @@
 // Select the sensor port for the sensor (SENSOR_3 and SENSOR_4) below.
 // Use the jumpers to connect pins 1-2 and 4-5 for the ultrasonic sensor.
 //
-#include <Wire.h>
-#include <Adafruit_MCP23017.h>
-#include <BricktronicsShield.h>
-BricktronicsUltrasonic u(BricktronicsShield::SENSOR_4);
+// Config 1 - arduino:avr:uno
+//#include <Wire.h>
+//#include <Adafruit_MCP23017.h>
+//#include <BricktronicsShield.h>
+//BricktronicsUltrasonic u(BricktronicsShield::SENSOR_4);
+// Config end
 
 // 2. With a Bricktronics Megashield - Include these lines but do not
 // call BricktronicsShield::begin() in the setup() function below.
 // Select the sensor port for the sensor (SENSOR_1 through SENSOR_4) below.
 // Use the jumpers to connect pins 1-2 and 4-5 for the ultrasonic sensor.
 //
+// Config 2 - arduino:avr:mega:cpu=atmega2560
 //#include <BricktronicsMegashield.h>
 //BricktronicsUltrasonic u(BricktronicsMegashield::SENSOR_4);
+// Config end
 
 // 3. With a Bricktronics Breakout board - No additional includes needed, just
 // update the pin assignments in the Ultrasonic constructor below.
 //
 // The Ultrasonic() arguments are: sclPin, sdaPin
 //
-//Ultrasonic u(8, 12);
+// Config 3 - arduino:avr:uno
+//BricktronicsUltrasonic u(8, 12);
+// Config end
 
 
 void setup() 
@@ -58,7 +64,9 @@ void setup()
 
   // Only call this if you are using a Bricktronics Shield,
   // otherwise leave it commented-out.
-  BricktronicsShield::begin();
+  // Config 1 - arduino:avr:uno
+  //BricktronicsShield::begin();
+  // Config end
 
   // Initialize the ultrasonic sensor connections
   u.begin();
