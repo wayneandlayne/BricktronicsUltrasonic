@@ -57,7 +57,16 @@
 // 3. With a Bricktronics Breakout board - No additional includes needed, just
 // update the pin assignments in the Ultrasonic constructor below.
 //
-// The Ultrasonic() arguments are: sclPin, sdaPin
+// Connect these pins on the Bricktronics Breakout board:
+//  Pin 1 - Connect to an external power supply between 7.2 and 9 volts DC
+//  Pin 2 - Connect to Ground
+//  Pin 3 - Connect to Ground
+//  Pin 4 - Connect to 5V
+//  Pin 5 - Connect to any digital pin (sclPin)
+//  Pin 6 - Connect to any digital pin (sdaPin)
+//
+// The BricktronicsUltrasonic() arguments are:
+//  sclPin (pin 5), sdaPin (pin 6)
 //
 // Config 3 - arduino:avr:uno
 //BricktronicsUltrasonic u(8, 12);
