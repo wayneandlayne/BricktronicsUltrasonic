@@ -9,6 +9,12 @@ To download. click the "Download ZIP" button on the right side of this page. Ren
 
 Place the BricktronicsUltrasonic library folder into your `<arduinosketchfolder>/libraries/` folder. You may need to create the libraries subfolder if this is your first installed library. Restart the Arduino IDE.
 
+**API Highlights**
+* `BricktronicsUltrasonic(uint8_t sclPin, uint8_t sdaPin)` - Constructor
+* `void begin(void)` - Call the begin function in your setup() function
+* `uint8_t getDistance(void)` - Basic ultrasonic sensor read function, returns measured distance in units of centimeters.
+* More API details in [API.md](API.md)
+
 **If you want to use ultrasonic sensors with your Bricktronics Shield or Megashield, you may also be interested in these libraries:**
 * [BricktronicsShield Arduino Library v1.2](https://github.com/wayneandlayne/BricktronicsShield)
 * [BricktronicsMegashield Arduino Library v1.2](https://github.com/wayneandlayne/BricktronicsMegashield)
