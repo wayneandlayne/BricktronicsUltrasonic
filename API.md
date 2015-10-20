@@ -66,7 +66,7 @@ void loop()
 
 # Constructors and `begin()`
 
-#### `BricktronicsUltrasonic(uint8_t sclPin, uint8_t sdaPin);
+#### `BricktronicsUltrasonic(uint8_t sclPin, uint8_t sdaPin)`
 
 Constructor - Simple constructor that accepts the SCL and SDA pin numbers.
 
