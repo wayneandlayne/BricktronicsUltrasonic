@@ -27,7 +27,7 @@
 
 #include "BricktronicsUltrasonic.h"
 
-BricktronicsUltrasonic::BricktronicsUltrasonic(uint8_t sclPin, uint8_t sdaPin):
+BricktronicsUltrasonic::BricktronicsUltrasonic(const uint8_t sclPin, const uint8_t sdaPin):
     _sclPin(sclPin),
     _sdaPin(sdaPin),
     _i2c(),
@@ -54,102 +54,108 @@ void BricktronicsUltrasonic::begin(void)
     _i2c.init(_sclPin, _sdaPin);
 }
 
-char* BricktronicsUltrasonic::readString(uint8_t startAddress, uint8_t numBytes)
+// readString - Reads a string from the I2C startAddress into supplied buffer.
+// Checks for errors and returns false in case of error, true in case of success.
+uint8_t BricktronicsUltrasonic::readString(const uint8_t startAddress, const uint8_t numBytes, char *buffer)
 {
-    readBytes(startAddress, numBytes, _bBuf);
-    _bBuf[ULTRASONIC_BUFF_LEN - 1] = 0;
-    return (char*) _bBuf;
+    uint8_t status = readBytes(startAddress, numBytes, (uint8_t *) buffer);
+    buffer[numBytes - 1] = '\0';
+    return( status );
 }
 
-uint8_t BricktronicsUltrasonic::readBytes(uint8_t startAddress, uint8_t numBytes, uint8_t *buffer)
+// readBytes - Reads a bunch of bytes from the I2C startAddress into supplied buffer.
+// Checks for errors and returns false in case of error, true in case of success.
+uint8_t BricktronicsUltrasonic::readBytes(const uint8_t startAddress, const uint8_t numBytes, uint8_t *buffer)
 {
-    if (!(_i2c.start(ULTRASONIC_ADDRESS | I2C_WRITE))) // Try to start, with a write address
+    if( !(_i2c.start(ULTRASONIC_ADDRESS | I2C_WRITE)) ) // Try to start, with a write address
     {
-        return false; // If it fails, return false.
+        return( false ); // If it fails, return false.
     }
 
-    if (!(_i2c.write(startAddress))) // Try to start a write
+    if( !(_i2c.write(startAddress)) ) // Try to start a write
     {
-        return false; // If it fails, return false.
+        return( false ); // If it fails, return false.
     }
 
-    // Do an i2c restart. See HDK for details.
-    if (!(_i2c.restart(ULTRASONIC_ADDRESS | I2C_READ)))
+    // Do an I2C restart to switch direction. See HDK for details.
+    if( !(_i2c.restart(ULTRASONIC_ADDRESS | I2C_READ)) )
     {
-        return false;
+        return( false );
     }
 
-
-    for (uint8_t i = 0; i < numBytes - 1; i++)
+    for( uint8_t i = 0; i < numBytes - 1; i++ )
     {
         buffer[i] = _i2c.read(false); // Read, and then send ack
     }
     buffer[numBytes - 1] = _i2c.read(true); // Read the last byte, then send nak
 
     _i2c.stop();
-    return true;
+    return( true );
 }
 
-uint8_t BricktronicsUltrasonic::readByte(uint8_t address)
+bool BricktronicsUltrasonic::writeBytes(const uint8_t startAddress, const uint8_t numBytes, const uint8_t *buffer)
 {
-    readBytes(address, 1, _bBuf);
-    return _bBuf[0];
-}
-
-bool BricktronicsUltrasonic::writeBytes(uint8_t startAddress,
-                            uint8_t numBytes,
-                            uint8_t *buffer)
-{
-    if (!buffer)
+    if( !_i2c.start(ULTRASONIC_ADDRESS | I2C_WRITE) ) // Try to start, with a write address
     {
-        buffer = _bBuf;
+        return( false ); // If it fails, return false.
     }
 
-    if (!_i2c.start(ULTRASONIC_ADDRESS | I2C_WRITE))
+    if( !_i2c.write(startAddress) ) // Try to start a write
     {
-        return false;
+        return( false ); // If it fails, return false.
     }
 
-    if (!_i2c.write(startAddress))
+    for( uint8_t i = 0; i < numBytes; i++ )
     {
-        return false;
-    }
-
-    for (uint8_t i = 0; i < numBytes; i++)
-    {
-        if (!_i2c.write(buffer[i]))
+        if( !_i2c.write(buffer[i]) )
         {
-            return false;
+            return( false ); // If it fails, return false.
         }
     }
 
     _i2c.stop();
-    return true;
+    return( true );
 }
 
-uint8_t BricktronicsUltrasonic::writeByte(uint8_t address, uint8_t data)
+// Reads the version string from the device into the provided buffer.
+// Checks for errors and returns false in case of error, true in case of success.
+// Use a buffer of at least size 8.
+uint8_t BricktronicsUltrasonic::getVersion(char *buffer)
 {
-    return writeBytes(address, 1, &data);
+    return( readString(ULTRASONIC_GET_VERSION, 8, buffer) );
 }
 
-char* BricktronicsUltrasonic::getVersion(void)
+// Reads the product ID from the device into the provided buffer.
+// Checks for errors and returns false in case of error, true in case of success.
+// Use a buffer of at least size 8.
+uint8_t BricktronicsUltrasonic::getProductID(char *buffer)
 {
-    return readString(ULTRASONIC_GET_VERSION, 8);
+    return( readString(ULTRASONIC_GET_PRODUCT_ID, 8, buffer) );
 }
 
-char* BricktronicsUltrasonic::getProductID(void)
+// Reads the sensor type from the device into the provided buffer.
+// Checks for errors and returns false in case of error, true in case of success.
+// Use a buffer of at least size 8.
+uint8_t BricktronicsUltrasonic::getSensorType(char *buffer)
 {
-    return readString(ULTRASONIC_GET_PRODUCT_ID, 8);
+    return( readString(ULTRASONIC_GET_SENSOR_TYPE, 8, buffer) );
 }
 
-char* BricktronicsUltrasonic::getSensorType(void)
-{
-    return readString(ULTRASONIC_GET_SENSOR_TYPE, 8);
-}
-
+// This is the main API call to get the current distance reading in centimeters.
+// Checks for errors and returns 0 in case of error.
+// Returns the actual distance in centimeters in case of success.
 uint8_t BricktronicsUltrasonic::getDistance(void)
 {
-    writeByte(ULTRASONIC_READ_COMMAND, ULTRASONIC_ADDRESS);
+    uint8_t buffer = ULTRASONIC_ADDRESS;
+    if( !writeBytes(ULTRASONIC_READ_COMMAND, 1, &buffer) )
+    {
+        return( 0 );
+    }
     delay(20);
-    return readByte(ULTRASONIC_READ_MEASUREMENT_BYTE_ZERO);
+    if( !readBytes(ULTRASONIC_READ_MEASUREMENT_BYTE_ZERO, 1, &buffer) )
+    {
+        return( 0 );
+    }
+    return( buffer );
 }
+

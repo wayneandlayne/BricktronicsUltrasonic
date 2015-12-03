@@ -55,11 +55,12 @@
 #define ULTRASONIC_ADDRESS 0x02
 #define ULTRASONIC_BUFF_LEN 9
 
+
 class BricktronicsUltrasonic
 {
     public:
         // Constructor - Simple constructor accepts the SCL and SDA pins
-        BricktronicsUltrasonic(uint8_t sclPin, uint8_t sdaPin);
+        BricktronicsUltrasonic(const uint8_t sclPin, const uint8_t sdaPin);
 
         // Constructor - Advanced constructor accepts a BricktronicsSensorSettings
         // struct to also override the low-level Arduino functions.
@@ -68,13 +69,17 @@ class BricktronicsUltrasonic
         // Starts up the sensor
         void begin(void);
 
-        // This is the main API call to get the current distance reading
+        // This is the main API call to get the current distance reading in centimeters.
+        // Checks for errors and returns 0 in case of error.
+        // Returns the actual distance in centimeters in case of success.
         uint8_t getDistance(void);
 
-        // These might return interesting data
-        char* getProductID();
-        char* getVersion();
-        char* getSensorType();
+        // These might return interesting data.
+        // Pass in an 8 byte buffer.
+        // These functions check for errors and returns false in case of error, true in case of success.
+        uint8_t getProductID(char *buffer);
+        uint8_t getVersion(char *buffer);
+        uint8_t getSensorType(char *buffer);
 
     //private:
         // We really don't like to hide things inside private,
@@ -84,15 +89,10 @@ class BricktronicsUltrasonic
 
         SoftI2cMaster _i2c;
 
-        // The internal data buffer
-        uint8_t _bBuf[ULTRASONIC_BUFF_LEN];
-
-        // TODO are these really "private"? If so, make prefix them with _?
-        char* readString(uint8_t startAddress, uint8_t numBytes);
-        uint8_t readBytes(uint8_t startAddress, uint8_t numBytes, uint8_t *buffer);
-        uint8_t readByte(uint8_t address);
-        bool writeBytes(uint8_t startAddress, uint8_t numBytes, uint8_t *buffer);
-        uint8_t writeByte(uint8_t address, uint8_t data);
+        // Internal functions
+        bool writeBytes(const uint8_t startAddress, const uint8_t numBytes, const uint8_t *buffer);
+        uint8_t readBytes(const uint8_t startAddress, const uint8_t numBytes, uint8_t *buffer);
+        uint8_t readString(const uint8_t startAddress, const uint8_t numBytes, char *buffer);
 
         // For the Bricktronics Shield, which has an I2C I/O expander chip,
         // we need a way to override some common Arduino functions. We use

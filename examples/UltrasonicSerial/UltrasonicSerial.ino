@@ -92,7 +92,6 @@ void setup()
 void loop()
 {
   Serial.println(u.getDistance());
-
   delay(100);
 }
 
