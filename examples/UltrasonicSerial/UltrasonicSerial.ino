@@ -37,7 +37,7 @@
 // Select the sensor port for the sensor (SENSOR_3 and SENSOR_4) below.
 // Use the jumpers to connect pins 1-2 and 4-5 for the ultrasonic sensor.
 //
-// Config 1 - arduino:avr:uno
+// Config 1 - WNLCFGBS
 //#include <Wire.h>
 //#include <Adafruit_MCP23017.h>
 //#include <BricktronicsShield.h>
@@ -49,7 +49,7 @@
 // Select the sensor port for the sensor (SENSOR_1 through SENSOR_4) below.
 // Use the jumpers to connect pins 1-2 and 4-5 for the ultrasonic sensor.
 //
-// Config 2 - arduino:avr:mega:cpu=atmega2560
+// Config 2 - WNLCFGBMS
 //#include <BricktronicsMegashield.h>
 //BricktronicsUltrasonic u(BricktronicsMegashield::SENSOR_4);
 // Config end
@@ -68,7 +68,7 @@
 // The BricktronicsUltrasonic() arguments are:
 //  sclPin (pin 5), sdaPin (pin 6)
 //
-// Config 3 - arduino:avr:uno
+// Config 3 - WNLCFGNS
 //BricktronicsUltrasonic u(8, 12);
 // Config end
 
@@ -80,7 +80,7 @@ void setup()
 
   // Only call this if you are using a Bricktronics Shield,
   // otherwise leave it commented-out.
-  // Config 1 - arduino:avr:uno
+  // Config 1 - WNLCFGBS
   //BricktronicsShield::begin();
   // Config end
 
