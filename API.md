@@ -8,8 +8,6 @@ Use the ultrasonic sensor with sensor port 3 or 4 on the Bricktronics Shield. Us
 
 Constructor usage for Bricktronics Shield
 ```C++
-#include <Wire.h>
-#include <Adafruit_MCP23017.h>
 #include <BricktronicsShield.h>
 #include <BricktronicsUltrasonic.h>
 BricktronicsUltrasonic u(BricktronicsShield::SENSOR_3);
